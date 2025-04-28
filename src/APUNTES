@@ -1,0 +1,21 @@
+/* 
+Tanto <IndexPage/> como <FavoritesPage/> van a utilizar <Layout/> como su layout principal.
+
+index le dice que es la ruta principal, es decir, la que se va a renderizar por defecto cuando se acceda a la ruta raíz.
+*/
+/*
+Está bien aplicar lazy y Suspense para que luego al hacer npm run build, en vez de cargar todo en el mismo archivo de dist, se divida en archivos. De esa manera al usuario no le va a cargar todo y hacerse pesado, sino que se le iran cargando las páginas segun las visite.
+
+*/
+/*
+   Si haces lazy loading de IndexPage (o cualquier otro componente), Vite y Rollup automáticamente separarán los componentes que están dentro (como DrinkCard en tu caso) en un chunk separado cuando realices la build.
+
+   Podemos instalar Rollup para ver en el navegador como están divididos los archivos npm install --save-dev rollup-plugin-visualizer
+*/
+
+/*
+La ruta principal: <Route element={<Layout />}> es el "contenedor" de todas las rutas dentro de ella. Esto es lo que proporciona el layout común para las rutas internas.
+
+Las rutas internas: /, /favoritos y /generate-ai están dentro de esa etiqueta Route, por lo que no necesitan etiquetas de cierre adicionales.
+
+*/
