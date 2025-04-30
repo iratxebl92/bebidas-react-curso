@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, XCircleIcon,  } from '@heroicons/react/24/outline'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import { Transition } from '@headlessui/react'
 import { useAppStore } from '../stores/useAppStore'
@@ -7,9 +7,14 @@ import { useAppStore } from '../stores/useAppStore'
 export default function Notification() {
 
     const {notification, hideNotification} = useAppStore()
+
+    if (!notification.show) return null; 
+    //añado para poder testear y asi comprobar si se abre o no dependiendo del valor de show
+    // Esto evita renderizar todo
   
   return (
     <div
+    data-testid="notification" //añado para poder testear
       aria-live="assertive"
       className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
     >
@@ -30,7 +35,9 @@ export default function Notification() {
                 <div className="flex-shrink-0">
             {
                 notification.error ? (
-                    <XCircleIcon 
+                    <XCircleIcon
+                    aria-label="ícono de error" //añado para poder testear
+                      role="img" 
                         className='h-6 w-6 text-red-400'
                         aria-hidden="true" //para hacerlo accesible
                     />
@@ -38,6 +45,7 @@ export default function Notification() {
                 : 
                 (
                     <CheckCircleIcon
+                    aria-label="ícono de éxito" //añado para poder testear
                         className='h-6 w-6 text-green-400'
                          aria-hidden="true"
                     />
@@ -57,7 +65,10 @@ export default function Notification() {
                     onClick={hideNotification}
                   >
                     <span className="sr-only">Cerrar</span>
+
+                  {/* sr-only hace que el texto "Cerrar" no sea visible, pero lo deja accesible para tecnologías de asistencia (lectores de pantalla). */}
                     <XMarkIcon className="h-5 w-5" aria-hidden="true" />
+                    {/* aria-hidden="true" es una propiedad de accesibilidad (del estándar WAI-ARIA) que le dice a tecnologías de asistencia (como lectores de pantalla) que ignoren ese elemento completamente. */}
                   </button>
                 </div>
               </div>
