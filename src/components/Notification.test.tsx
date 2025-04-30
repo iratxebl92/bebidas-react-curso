@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { useAppStore } from '../stores/useAppStore';
-import Notification from '../components/Notification';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import Notification from '../components/Notification';
 
 // mockStore es un objeto que simula el resultado de useAppStore. Así evitamos tener que usar Zustand realmente, y controlamos directamente el estado.
 

@@ -6,6 +6,8 @@ import { SelectedRecipe } from '../types';
 export default function Modal() {
   const { modal, closeModal, selectedRecipe, handleClickFavorite, favoriteExists, setSelectedRecipe } = useAppStore();
 
+  console.log(selectedRecipe)
+
   const renderIngredients = () => {
     const ingredients: React.ReactNode[]  = [];
     for (let i = 1; i <= 6; i++) {
@@ -23,13 +25,14 @@ export default function Modal() {
   };
 
   return (
+  
     <Transition
       appear
       show={modal}
       as={Fragment}
       afterLeave={setSelectedRecipe} // <<< limpiar receta después de que se cierra
     >
-      <Dialog as="div" className="relative z-10" onClose={closeModal}>
+      <Dialog as="div"  className="relative z-10" onClose={closeModal}>
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <TransitionChild
@@ -53,13 +56,14 @@ export default function Modal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <DialogPanel  className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 {selectedRecipe.strDrink && (
-                  <>
-                    <DialogTitle as="h3" className="text-gray-900 text-4xl font-extrabold my-5 text-center">
+                  <div data-testid="modal">
+                    <DialogTitle as="h3" data-testid='strDrink'  className="text-gray-900 text-4xl font-extrabold my-5 text-center">
                       {selectedRecipe.strDrink}
                     </DialogTitle>
                     <img
+                    role='img'
                       src={selectedRecipe.strDrinkThumb}
                       alt={`Imagen de ${selectedRecipe.strDrink}`}
                       className="mx-auto w-96"
@@ -86,12 +90,13 @@ export default function Modal() {
                       <button
                         onClick={() => handleClickFavorite(selectedRecipe)}
                         type="button"
+                        data-testid='button favoritos'
                         className="w-full bg-orange-600 p-3 rounded font-bold text-white uppercase shadow hover:bg-orange-500"
                       >
                         {favoriteExists(selectedRecipe.idDrink) ? 'Eliminar Favorito' : 'Agregar a Favoritos'}
                       </button>
                     </div>
-                  </>
+                  </div>
                 )}
               </DialogPanel>
             </TransitionChild>
@@ -99,5 +104,7 @@ export default function Modal() {
         </div>
       </Dialog>
     </Transition>
+
+
   );
 }

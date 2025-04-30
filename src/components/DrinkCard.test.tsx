@@ -1,7 +1,7 @@
 import {beforeEach, describe, expect, it, vi} from 'vitest'
 import {render, screen} from '@testing-library/react'
-import DrinkCard from './DrinkCard'
 import userEvent from '@testing-library/user-event';
+import DrinkCard from './DrinkCard'
 
 // Mock del store para poder controlar su comportamiento en los tests
 const mockSelectRecipe = vi.fn();
