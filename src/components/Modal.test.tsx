@@ -127,9 +127,15 @@ describe("<Modal /> ", () => {
     const name = screen.getByTestId('strDrink')
     expect(name).toHaveTextContent('57 Chevy with a White License Plate')
   });
+  it("Debe mostrar las instrucciones de la bebida", () => {
+    mockStore.modal = true;
+    render(<Modal />);
+    const instructions = screen.getByTestId('instructions')
+    expect(instructions).toHaveTextContent("1. Fill a rocks glass with ice 2.add white creme de cacao and vodka 3.stir")
+  });
   // Comprobar todo de la img
   // Comprobar classes en general
   // COmprobar la llamada a renderIngredients
-  // Comprobar mostrar instrucciones
-  
+  // Comprobar mostrar ingredientes y strMeasure1
+
 });
