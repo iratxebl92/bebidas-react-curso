@@ -56,7 +56,7 @@ export default function Modal() {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <DialogPanel  className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <DialogPanel data-testid="dialog-panel" className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 {selectedRecipe.strDrink && (
                   <div data-testid="modal">
                     <DialogTitle as="h3" data-testid='strDrink'  className="text-gray-900 text-4xl font-extrabold my-5 text-center">

@@ -2,8 +2,10 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Modal from "./Modal";
 import userEvent from "@testing-library/user-event";
+import { SelectedRecipe } from "../types";
 
-const selectedRecipe = {
+//lo tipamos para evitar errores de TS en los test
+const selectedRecipe: SelectedRecipe = {
   idDrink: "14029",
   strDrink: "57 Chevy with a White License Plate",
   strDrinkThumb:
@@ -133,9 +135,47 @@ describe("<Modal /> ", () => {
     const instructions = screen.getByTestId('instructions')
     expect(instructions).toHaveTextContent("1. Fill a rocks glass with ice 2.add white creme de cacao and vodka 3.stir")
   });
-  // Comprobar todo de la img
-  // Comprobar classes en general
-  // COmprobar la llamada a renderIngredients
-  // Comprobar mostrar ingredientes y strMeasure1
-
+  it("Debe mostrar las toda la información de la imágen", () => {
+    mockStore.modal = true;
+    render(<Modal />);
+    const image = screen.getByRole('img')
+    expect(image).toBeInTheDocument()
+    expect(image).toHaveAttribute('src', selectedRecipe.strDrinkThumb)
+    expect(image).toHaveAttribute('alt', `Imagen de ${selectedRecipe.strDrink}`)
+  });
+  it("Debe mostrar los ingredientes y medidas correctamente", () => {
+    mockStore.modal = true;
+    render(<Modal />);
+  
+    const items = screen.getAllByRole('listitem'); // En Testing Library, los elementos <li> tienen el role accesible "listitem"
+    expect(items).toHaveLength(2); // Solo hay 2 ingredientes válidos
+    expect(items[0]).toHaveTextContent('Creme de Cacao - 1 oz white');
+    expect(items[1]).toHaveTextContent('Vodka - 1 oz');
+  });
+  it("No debe renderizar ingredientes si no existen", () => {
+    mockStore.modal = true;
+    mockStore.selectedRecipe = {
+      ...selectedRecipe,
+      strIngredient1: null,
+      strIngredient2: null,
+      strMeasure1: null,
+      strMeasure2: null
+    };
+    render(<Modal />);
+    const items = screen.queryAllByRole('listitem');
+    expect(items).toHaveLength(0);
+  });
+  it("Debe tener el rol dialog cuando está abierto", () => {
+    mockStore.modal = true;
+    render(<Modal />);
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+  });
+  it("Debe tener las clases de estilo principales en el DialogPanel", () => {
+    mockStore.modal = true;
+    render(<Modal />);
+    const panel = screen.getByTestId('dialog-panel');
+    expect(panel).toHaveClass('transform', 'overflow-hidden', 'rounded-2xl', 'bg-white');
+  });
+  
 });
